@@ -88,14 +88,16 @@ namespace Coravel.Scheduling.Schedule.Interfaces
 
         /// <summary>
         /// Schedule an event from a basic cron expression.
-        /// Supported values for expression parts are:
-        /// - "*"
-        /// - "5"
-        /// - "5,6,7"
-        /// - "5-10"
-        /// - "*/10"
-        /// 
-        /// For example "* * * * 0" would schedule an event to run every minute on Sundays.
+        /// <para>
+        /// Supported values for expression parts are: 
+        /// "*" or "5"or "5,6,7" or 5-10" or "*/10"  </para>
+        /// <para>
+        /// Params: {SECONDS} {MINUTES} {HOURS} {DAYS} {MONTHS} {WEEKDAYS}
+        /// <para>
+        /// For example "* * * * * 0" would schedule an event to run every minute on Sundays.
+        /// and "* 10 * * * *" to run every 10th minute of the hours
+        /// vs  "* */10 * * * *" to run every 10 minutes</para>
+        /// </para>
         /// </summary>
         /// <param name="cronExpression"></param>
         /// <returns></returns>

@@ -28,8 +28,8 @@ namespace Coravel.Scheduling.Schedule.Cron
         /// <param name="dateTime"></param>
         /// <returns></returns>
         public bool IsDue(int time)
-        {
-            return this.CronExpressionPartIsDue(time, this._expression, this._timeParts);
+        { 
+             return this.CronExpressionPartIsDue(time, this._expression, this._timeParts);
         }
 
         /// <summary>

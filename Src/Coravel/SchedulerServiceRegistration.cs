@@ -28,7 +28,7 @@ namespace Coravel
                     p.GetRequiredService<IServiceScopeFactory>(),
                     p.GetService<IDispatcher>()
                 )
-            );
+            );            
             services.AddHostedService<SchedulerHost>();
             return services;
         }

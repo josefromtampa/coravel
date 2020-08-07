@@ -5,6 +5,7 @@ namespace Coravel.Scheduling.Schedule.Cron
 {
     public class CronExpression
     {
+        private string _seconds;
         private string _minutes;
         private string _hours;
         private string _days;
@@ -14,16 +15,17 @@ namespace Coravel.Scheduling.Schedule.Cron
         public CronExpression(string expression)
         {
             var values = expression.Split(' ');
-            if (values.Length != 5)
+            if (values.Length != 6)
             {
                 throw new Exception($"Cron expression '{expression}' is malformed.");
             }
 
-            this._minutes = values[0];
-            this._hours = values[1];
-            this._days = values[2];
-            this._months = values[3];
-            this._weekdays = values[4];
+            this._seconds = values[0];
+            this._minutes = values[1];
+            this._hours = values[2];
+            this._days = values[3];
+            this._months = values[4];
+            this._weekdays = values[5];
         }
 
         public CronExpression AppendWeekDay(DayOfWeek day)
@@ -44,13 +46,17 @@ namespace Coravel.Scheduling.Schedule.Cron
 
         public bool IsDue(DateTime time)
         {
-            return this.IsMinuteDue(time)
+            return this.IsSecondDue(time)
+                && this.IsMinuteDue(time)
                 && this.IsHoursDue(time)
                 && this.IsDayDue(time)
                 && this.IsMonthDue(time)
                 && this.IsWeekDayDue(time);
         }
-
+        public bool IsSecondDue(DateTime time)
+        {
+            return new CronExpressionPart(this._seconds, 60).IsDue(time.Second);
+        }
         public bool IsWeekDayDue(DateTime time)
         {
             return new CronExpressionPart(this._weekdays, 7).IsDue((int)time.DayOfWeek);

@@ -11,6 +11,7 @@ using Coravel.Invocable;
 using Coravel.Events.Interfaces;
 using Coravel.Scheduling.Schedule.Broadcast;
 using System.Threading;
+using System.Diagnostics;
 
 namespace Coravel.Scheduling.Schedule
 {
@@ -180,8 +181,9 @@ namespace Coravel.Scheduling.Schedule
                 await this.TryDispatchEvent(new ScheduledEventFailed(scheduledEvent, e));
 
                 this._logger?.LogError(e, "A scheduled task threw an Exception: ");
-
+                Trace.WriteLine("Error Detected! \n  NOTE: If using IInvocable, be sure to add service.AddTransient<ClassWithIInvocable> to your service. \n        If using AutoSchedulerBase, be sure you don't!");
                 this._errorHandler?.Invoke(e);
+                // throw (e);
             }
         }
 
@@ -206,7 +208,7 @@ namespace Coravel.Scheduling.Schedule
                 // If this task is scheduled as a cron based task (should only be checked if due per min)
                 // but the time is not at the minute mark, we won't include those tasks to be checked if due.
                 // The second based schedules are always checked.
-                if (taskIsPerMinuteCronTask && timerIsNotAtMinute)
+                if (false && taskIsPerMinuteCronTask && timerIsNotAtMinute)
                 {
                     appendTask = false;
                 }
